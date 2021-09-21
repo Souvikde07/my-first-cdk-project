@@ -7,14 +7,17 @@
           "ServerSideEncryptionConfiguration": [
             {
               "ServerSideEncryptionByDefault": {
-                "SSEAlgorithm": "aws:kms"
+                "SSEAlgorithm": "AES256"
               }
             }
           ]
         },
         "BucketName": "myfirstcdkproject001",
-        "VersioningConfiguration": {
-          "Status": "Enabled"
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
         }
       },
       "UpdateReplacePolicy": "Retain",
@@ -23,15 +26,40 @@
         "aws:cdk:path": "MyFirstCdkProjectStack/myBucketId/Resource"
       }
     },
+    "myBucketId1798CC364": {
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "MyFirstCdkProjectStack/myBucketId1/Resource"
+      }
+    },
+    "gidAF1DAB4C": {
+      "Type": "AWS::IAM::Group",
+      "Metadata": {
+        "aws:cdk:path": "MyFirstCdkProjectStack/gid/Resource"
+      }
+    },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/yWLQQrCQAxFz9L9NLXtQtyJvYDUE5Q0YhxMYJJBZJi7a+3qPXj/99APAxya8/K2FtfYFdREUG6+YAyTinnK6GG6y0ymOSFt/gsrO6vUsB1thHLJGOk/3K3WcP34Q6Ub4QTH5mnMbcri/CKYd34BtUYFM34AAAA="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXMwQrCMBAE0G/pPd3a9iDexB48KvULQhpxDc2WZBeRkH/XpKd5DMP00A8DHJqz/sTWLK5LhoKF9GBtnJrIRw5iWE1PfxPepGq2kSQYW/yfLMhIPqtykeII6SLG2brclRXqFdI1kGylrcg5q/uXX+S7EU5wbN4RsQ3iGVcL854/6wX6Dp8AAAA="
       },
       "Metadata": {
         "aws:cdk:path": "MyFirstCdkProjectStack/CDKMetadata/Default"
       },
       "Condition": "CDKMetadataAvailable"
+    }
+  },
+  "Outputs": {
+    "myBucketOutput1": {
+      "Description": "My First CDK Bucket",
+      "Value": {
+        "Ref": "myBucketId1798CC364"
+      },
+      "Export": {
+        "Name": "myBucketOutput1"
+      }
     }
   },
   "Conditions": {
