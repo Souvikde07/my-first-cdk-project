@@ -7,46 +7,29 @@ from aws_cdk import core as cdk
 from aws_cdk import(
     aws_s3 as _s3,
     aws_iam as _iam,
+    aws_kms as _kms,
     core
 )
 
+class MyArtifactBucketStack(cdk.Stack):
 
-class MyFirstCdkProjectStack(cdk.Stack):
+    def __init__(self, scope: cdk.Construct, construct_id: str,is_prod = False,**kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
 
-    def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
-        super().__init__(scope, construct_id, **kwargs)
+
+        mykey = _kms.key.from_key_arn(  self,
+                                        "mykeyid",
+                                        self.node.try_get_context('prod')['kms_arn'])
+
 
         # The code that defines your stack goes here
-        #creating an S3 bucket
-        _s3.Bucket(
-            self,
-            "myBucketId",    
-            bucket_name = "myfirstcdkproject001",
-            versioned = False,
-            encryption = _s3.BucketEncryption.S3_MANAGED,
-    	    block_public_access = _s3.BlockPublicAccess.BLOCK_ALL
-        )
-        #Creating another S3 bucket, and hence the bucket id has to be differnt than the previous bucket id
-        object_mybucket = _s3.Bucket(
-            self,
-            "myBucketId1"
-        )
-
-        snstopicname ="abcxyz123"
-
-        if not core.Token.is_unresolved(snstopicname) and len(snstopicname) > 10:
-            raise ValueError("Maximum value can be only 10 characters")
-
-        print(object_mybucket.bucket_name)
-
-        _iam.Group(self, # creating an iam group
-            "gid")
-
-        Output_object1= core.CfnOutput(
-            self,
-            "myBucketOutput1",
-            value = object_mybucket.bucket_name,
-            description=f"My First CDK Bucket",
-            export_name = "myBucketOutput1" 
-        )
-
+        if is_prod:
+            artifactBucket = _s3.Bucket(self,
+                                        "myProdArtifactBucketId",
+                                        versioned =True, 
+                                        encryption =_s3.BucketEncryption.KMS,
+                                        encryption_key = mykey,
+                                        removal_policy=core.RemovalPolicy.RETAIN)
+        
+        else:
+            artifactBucket = _s3.Bucket(self,"myDevArtifactBucketId")
