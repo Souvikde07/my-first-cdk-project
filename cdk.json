@@ -3,21 +3,24 @@
   "versionReporting":false,
   "context": {
     "envs":{
-    "dev":{
-      "region":"us-east-1",
-      "account":"950167394218"
-    },
-    "prod":{
-      "region":"us-east-1",
-      "account":"426945086755",
-      "encryption":true,
-      "kms_arn":"arn:aws:s3:::myprodstack-myprodartifactbucketid99d5827a-2yscx65m8p26",
-      "vpc_configs":{
-        "vpc_cidr":"10.83.0.0/20",
-        "cidr_mask":24,
-        "set_reserve":false
+      "dev":{
+        "region":"ap-south-1",
+        "account":"950167394218"
+      },
+      "prod":{
+        "stack-team-support-email":"abc@xyz.com",
+        "region":"ap-south-1",
+        "account":"426945086755",
+        "encryption":true,
+        "kms_arn":"arn:aws:s3:::myprodstack-myprodartifactbucketid99d5827a-2yscx65m8p26",
+        "vpc_configs":{
+          "vpc_cidr":"10.13.0.0/21",
+          "cidr_mask":24,
+          "set_reserve":false
+        }
       }
     },
+  
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
     "@aws-cdk/core:enableStackNameDuplicates": "true",
     "aws-cdk:enableDiffNoFail": "true",
@@ -32,5 +35,4 @@
     "@aws-cdk/aws-lambda:recognizeVersionProps": true,
     "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": true
   }
-}
 }
